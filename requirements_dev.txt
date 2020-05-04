@@ -7,3 +7,6 @@ twine==1.14.0
 Click==7.0
 pytest==4.6.5
 pytest-runner==5.1
+pytest-mock==3.1.0
+pytest-cov==2.8.1
+pygatt[GATTTOOL]>=4.0.5

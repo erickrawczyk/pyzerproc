@@ -4,20 +4,23 @@
 
 from setuptools import setup, find_packages
 
-import pyzerproc
+from pyzerproc import __author__, __email__, __version__
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-requirements = ['Click>=7.0', ]
+requirements = [
+    'Click>=7.0',
+    'pygatt[GATTTOOL]>=4.0.5',
+]
 
 setup_requirements = ['pytest-runner', ]
 
 test_requirements = ['pytest>=3', ]
 
 setup(
-    author=pyzerproc.__author__,
-    author_email=pyzerproc.__email__,
+    author=__author__,
+    author_email=__email__,
     python_requires='>=3.6',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
@@ -29,7 +32,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description="Asyncio library to control Zerproc Bluetooth LED smart string lights",
+    description="Library to control Zerproc Bluetooth LED smart string lights",
     entry_points={
         'console_scripts': [
             'pyzerproc=pyzerproc.cli:main',
@@ -46,6 +49,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/emlove/pyzerproc',
-    version=pyzerproc.__version__,
+    version=__version__,
     zip_safe=False,
 )

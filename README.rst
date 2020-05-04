@@ -9,28 +9,26 @@ pyzerproc
 .. image:: https://img.shields.io/travis/emlove/pyzerproc.svg
         :target: https://travis-ci.com/emlove/pyzerproc
 
-.. image:: https://readthedocs.org/projects/pyzerproc/badge/?version=latest
-        :target: https://pyzerproc.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+.. image:: https://coveralls.io/repos/emlove/pyzerproc/badge.svg
+        :target: https://coveralls.io/r/emlove/pyzerproc
+        :alt Code Coverage Status
 
 
 
-
-Asyncio library to control Zerproc Bluetooth LED smart string lights
-
+Library to control Zerproc Bluetooth LED smart string lights
 
 * Free software: Apache Software License 2.0
-* Documentation: https://pyzerproc.readthedocs.io.
 
 
 Features
 --------
 
-* TODO
+* Turn lights on and off
+* Set light color
 
 Changelog
 ---------
-0.0.1 (2020-05-03)
+0.0.1 (2020-05-04)
 ~~~~~~~~~~~~~~~~~~
 - Initial release
 
