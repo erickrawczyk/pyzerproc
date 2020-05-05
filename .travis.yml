@@ -11,6 +11,7 @@ install:
   - pip install -qr requirements_dev.txt
 script:
   - pytest
+  - flake8
 notifications:
   email: false
 after_success:
