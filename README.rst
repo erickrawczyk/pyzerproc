@@ -13,10 +13,17 @@ pyzerproc
         :target: https://coveralls.io/r/emlove/pyzerproc
 
 
-
 Library to control Zerproc Bluetooth LED smart string lights
 
 * Free software: Apache Software License 2.0
+
+
+Features
+--------
+
+* Turn lights on and off
+* Set light color
+
 
 Command line usage
 ------------------
@@ -39,6 +46,7 @@ pyzerproc ships with a command line tool that exposes the features of the librar
     $ pyzerproc set-color AA:BB:CC:00:11:22 00ff00
     INFO:pyzerproc.light:Connecting to AA:BB:CC:00:11:22
     INFO:pyzerproc.light:Changing color of AA:BB:CC:00:11:22 to #00ff00
+
 
 Usage
 -----
@@ -88,22 +96,21 @@ Change the light color
         light.disconnect()
 
 
-Features
---------
-
-* Turn lights on and off
-* Set light color
-
 Changelog
 ---------
 0.0.1 (2020-05-04)
 ~~~~~~~~~~~~~~~~~~
 - Initial release
 
+
 Credits
 -------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+- Thanks to `Uri Shaked`_ for an incredible guide to `Reverse Engineering a Bluetooth Lightbulb`_.
 
+- This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+
+.. _`Uri Shaked`: https://medium.com/@urish
+.. _`Reverse Engineering a Bluetooth Lightbulb`: https://medium.com/@urish/reverse-engineering-a-bluetooth-lightbulb-56580fcb7546
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
