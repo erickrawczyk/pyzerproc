@@ -86,44 +86,47 @@ def test_get_state(device, mocker):
 
     def send_response(*args, **kwargs):
         """Simulate a response from the light"""
-        light._handle_data(63,
-            b'\x66\xe3\x24\x16\x24\x01\xff\x00\x00\x00\x01\x99')
+        light._handle_data(
+            63, b'\x66\xe3\x24\x16\x24\x01\xff\x00\x00\x00\x01\x99')
 
     device.char_write.side_effect = send_response
 
     state = light.get_state()
     assert state.is_on is False
     assert state.color == (255, 0, 0)
-    device.char_write.assert_called_with('0000ffe9-0000-1000-8000-00805f9b34fb',  b'\xEF\x01\x77')
+    device.char_write.assert_called_with(
+        '0000ffe9-0000-1000-8000-00805f9b34fb',  b'\xEF\x01\x77')
     assert state.__repr__() == "<LightState is_on='False' color='(255, 0, 0)'>"
 
     # Ensure duplicate responses are handled
     def send_response(*args, **kwargs):
         """Simulate a response from the light"""
-        light._handle_data(63,
-            b'\x66\xe3\x23\x16\x24\x01\x10\x05\x1C\x00\x01\x99')
-        light._handle_data(63,
-            b'\x66\xe3\x23\x16\x24\x01\x10\x05\x1C\x00\x01\x99')
+        light._handle_data(
+            63, b'\x66\xe3\x23\x16\x24\x01\x10\x05\x1C\x00\x01\x99')
+        light._handle_data(
+            63, b'\x66\xe3\x23\x16\x24\x01\x10\x05\x1C\x00\x01\x99')
 
     device.char_write.side_effect = send_response
 
     state = light.get_state()
     assert state.is_on is True
     assert state.color == (131, 41, 230)
-    device.char_write.assert_called_with('0000ffe9-0000-1000-8000-00805f9b34fb',  b'\xEF\x01\x77')
+    device.char_write.assert_called_with(
+        '0000ffe9-0000-1000-8000-00805f9b34fb',  b'\xEF\x01\x77')
 
     # Ensure leftover values are discarded before querying
     def send_response(*args, **kwargs):
         """Simulate a response from the light"""
-        light._handle_data(63,
-            b'\x66\xe3\x00\x16\x24\x01\xFF\xFF\xFF\x00\x01\x99')
+        light._handle_data(
+            63, b'\x66\xe3\x00\x16\x24\x01\xFF\xFF\xFF\x00\x01\x99')
 
     device.char_write.side_effect = send_response
 
     state = light.get_state()
     assert state.is_on is None
     assert state.color == (255, 255, 255)
-    device.char_write.assert_called_with('0000ffe9-0000-1000-8000-00805f9b34fb',  b'\xEF\x01\x77')
+    device.char_write.assert_called_with(
+        '0000ffe9-0000-1000-8000-00805f9b34fb',  b'\xEF\x01\x77')
 
     # Test response timeout
     device.char_write.side_effect = None
