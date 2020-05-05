@@ -10,7 +10,7 @@ python:
 install:
   - pip install -qr requirements_dev.txt
 script:
-  - coverage run --source pyzerproc setup.py test
+  - coverage run -m pytest
   - flake8
 notifications:
   email: false
