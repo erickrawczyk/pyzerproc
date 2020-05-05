@@ -1,5 +1,6 @@
 """Console script for pyzerproc."""
 import sys
+from binascii import hexlify
 import click
 import logging
 
@@ -60,6 +61,36 @@ def set_color(address, color):
     try:
         light.connect()
         light.set_color(r, g, b)
+    finally:
+        light.disconnect()
+    return 0
+
+
+@main.command()
+@click.argument('address')
+def is_on(address):
+    """Get the current on/off status of the light"""
+    light = pyzerproc.Light(address)
+
+    try:
+        light.connect()
+        state = light.get_state()
+        click.echo(state.is_on)
+    finally:
+        light.disconnect()
+    return 0
+
+
+@main.command()
+@click.argument('address')
+def get_color(address):
+    """Get the current color of the light"""
+    light = pyzerproc.Light(address)
+
+    try:
+        light.connect()
+        state = light.get_state()
+        click.echo(hexlify(bytes(state.color)))
     finally:
         light.disconnect()
     return 0

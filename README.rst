@@ -23,6 +23,7 @@ Features
 
 * Turn lights on and off
 * Set light color
+* Get light status
 
 
 Command line usage
@@ -46,6 +47,16 @@ pyzerproc ships with a command line tool that exposes the features of the librar
     $ pyzerproc set-color AA:BB:CC:00:11:22 00ff00
     INFO:pyzerproc.light:Connecting to AA:BB:CC:00:11:22
     INFO:pyzerproc.light:Changing color of AA:BB:CC:00:11:22 to #00ff00
+
+    $ pyzerproc is-on AA:BB:CC:00:11:22
+    INFO:pyzerproc.light:Connecting to AA:BB:CC:00:11:22
+    INFO:pyzerproc.light:Got state of AA:BB:CC:00:11:22: <LightState is_on='True' color='(255, 0, 0)'>
+    True
+
+    $ pyzerproc get-color AA:BB:CC:00:11:22
+    INFO:pyzerproc.light:Connecting to AA:BB:CC:00:11:22
+    INFO:pyzerproc.light:Got state of AA:BB:CC:00:11:22: <LightState is_on='True' color='(255, 0, 0)'>
+    ff0000
 
 
 Usage
@@ -96,8 +107,36 @@ Change the light color
         light.disconnect()
 
 
+Get the light state
+
+.. code-block:: python
+
+    import pyzerproc
+    import time
+
+    address = "AA:BB:CC:00:11:22"
+
+    light = pyzerproc.Light(address)
+
+    try:
+        light.connect()
+
+        state = light.get_state()
+
+        if state.is_on:
+            print(state.color)
+        else:
+            print("Off")
+    finally:
+        light.disconnect()
+
+
 Changelog
 ---------
+Next
+~~~~
+- Get the current light state
+
 0.0.1 (2020-05-04)
 ~~~~~~~~~~~~~~~~~~
 - Initial release
