@@ -53,7 +53,8 @@ class Light():
                 raise ValueError(
                     "Value {} is outside the valid range of 0-255")
 
-        _LOGGER.info("Changing color of %s to #%02x%02x%02x", self.address, r, g, b)
+        _LOGGER.info("Changing color of %s to #%02x%02x%02x",
+                     self.address, r, g, b)
 
         # Normalize to 0-31, the supported range of these lights
         r = int(r * 31 / 255)
