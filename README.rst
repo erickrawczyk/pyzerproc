@@ -11,7 +11,6 @@ pyzerproc
 
 .. image:: https://coveralls.io/repos/emlove/pyzerproc/badge.svg
         :target: https://coveralls.io/r/emlove/pyzerproc
-        :alt Code Coverage Status
 
 
 
