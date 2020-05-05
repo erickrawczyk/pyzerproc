@@ -133,8 +133,8 @@ Get the light state
 
 Changelog
 ---------
-Next
-~~~~
+0.0.2 (2020-05-05)
+~~~~~~~~~~~~~~~~~~
 - Get the current light state
 
 0.0.1 (2020-05-04)
