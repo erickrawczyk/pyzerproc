@@ -1,12 +1,12 @@
-"""Main module."""
+"""Device class"""
 from binascii import hexlify
 import logging
 import queue
 
 _LOGGER = logging.getLogger(__name__)
 
-CAPABILITY_COMMAND_WRITE = "0000ffe9-0000-1000-8000-00805f9b34fb"
-CAPABILITY_NOTIFY_VALUE = "0000ffe4-0000-1000-8000-00805f9b34fb"
+CHARACTERISTIC_COMMAND_WRITE = "0000ffe9-0000-1000-8000-00805f9b34fb"
+CHARACTERISTIC_NOTIFY_VALUE = "0000ffe4-0000-1000-8000-00805f9b34fb"
 
 NOTIFICATION_RESPONSE_TIMEOUT = 5
 
@@ -32,7 +32,7 @@ class Light():
 
         _LOGGER.debug("Connected to %s", self.address)
 
-        self.device.subscribe(CAPABILITY_NOTIFY_VALUE,
+        self.device.subscribe(CHARACTERISTIC_NOTIFY_VALUE,
                               callback=self._handle_data)
 
     def disconnect(self):
@@ -45,13 +45,13 @@ class Light():
     def turn_on(self):
         """Turn on the light"""
         _LOGGER.info("Turning on %s", self.address)
-        self._write(CAPABILITY_COMMAND_WRITE, b'\xCC\x23\x33')
+        self._write(CHARACTERISTIC_COMMAND_WRITE, b'\xCC\x23\x33')
         _LOGGER.debug("Turned on %s", self.address)
 
     def turn_off(self):
         """Turn off the light"""
         _LOGGER.info("Turning off %s", self.address)
-        self._write(CAPABILITY_COMMAND_WRITE, b'\xCC\x24\x33')
+        self._write(CHARACTERISTIC_COMMAND_WRITE, b'\xCC\x24\x33')
         _LOGGER.debug("Turned off %s", self.address)
 
     def set_color(self, r, g, b):
@@ -74,7 +74,7 @@ class Light():
         color_string = "{:c}{:c}{:c}".format(r, g, b).encode()
 
         value = b'\x56' + color_string + b'\x00\xF0\xAA'
-        self._write(CAPABILITY_COMMAND_WRITE, value)
+        self._write(CHARACTERISTIC_COMMAND_WRITE, value)
         _LOGGER.debug("Changed color of %s", self.address)
 
     def _handle_data(self, handle, value):
@@ -93,7 +93,7 @@ class Light():
         except queue.Empty:
             pass
 
-        self._write(CAPABILITY_COMMAND_WRITE, b'\xEF\x01\x77')
+        self._write(CHARACTERISTIC_COMMAND_WRITE, b'\xEF\x01\x77')
 
         try:
             response = self.notification_queue.get(
