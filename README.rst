@@ -21,6 +21,7 @@ Library to control Zerproc Bluetooth LED smart string lights
 Features
 --------
 
+* Discover nearby devices
 * Turn lights on and off
 * Set light color
 * Get light status
@@ -31,6 +32,14 @@ Command line usage
 pyzerproc ships with a command line tool that exposes the features of the library.
 
 .. code-block:: console
+
+    $ pyzerproc discover
+    INFO:pyzerproc.discovery:Starting scan for local devices
+    INFO:pyzerproc.discovery:Discovered AA:BB:CC:00:11:22: LEDBlue-CC001122
+    INFO:pyzerproc.discovery:Discovered AA:BB:CC:33:44:55: LEDBlue-CC334455
+    INFO:pyzerproc.discovery:Scan complete
+    AA:BB:CC:00:11:22
+    AA:BB:CC:33:44:55
 
     $ pyzerproc turn-on AA:BB:CC:00:11:22
     INFO:pyzerproc.light:Connecting to AA:BB:CC:00:11:22
@@ -61,6 +70,18 @@ pyzerproc ships with a command line tool that exposes the features of the librar
 
 Usage
 -----
+
+Discover nearby devices
+
+.. code-block:: python
+
+    import pyzerproc
+
+    addresses = pyzerproc.discover_devices(timeout=30)
+
+    for address in addresses:
+        print(address)
+
 
 Turn a light on and off
 
@@ -133,6 +154,10 @@ Get the light state
 
 Changelog
 ---------
+Next
+~~~~
+- Discover nearby devices
+
 0.0.2 (2020-05-05)
 ~~~~~~~~~~~~~~~~~~
 - Get the current light state

@@ -22,6 +22,16 @@ def main(verbose):
 
 
 @main.command()
+def discover():
+    """Discover nearby lights"""
+    addresses = pyzerproc.discover_devices()
+    for address in addresses:
+        click.echo(address)
+
+    return 0
+
+
+@main.command()
 @click.argument('address')
 def turn_on(address):
     """Turn on the light with the given MAC address"""
