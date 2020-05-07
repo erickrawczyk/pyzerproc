@@ -154,8 +154,8 @@ Get the light state
 
 Changelog
 ---------
-Next
-~~~~
+0.1.0 (2020-05-07)
+~~~~~~~~~~~~~~~~~~
 - Discover nearby devices
 
 0.0.2 (2020-05-05)
