@@ -20,7 +20,7 @@ class Light():
         self.device = None
         self.notification_queue = queue.Queue(maxsize=1)
 
-    def connect(self):
+    def connect(self, auto_reconnect=False):
         """Connect to this light"""
         import pygatt
 
@@ -28,7 +28,8 @@ class Light():
 
         self.adapter = pygatt.GATTToolBackend()
         self.adapter.start(reset_on_start=False)
-        self.device = self.adapter.connect(self.address)
+        self.device = self.adapter.connect(
+            self.address, auto_reconnect=auto_reconnect)
 
         _LOGGER.debug("Connected to %s", self.address)
 

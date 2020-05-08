@@ -95,7 +95,7 @@ Turn a light on and off
     light = pyzerproc.Light(address)
 
     try:
-        light.connect()
+        light.connect(auto_reconnect=True)
         light.turn_on()
 
         time.sleep(5)
@@ -154,6 +154,10 @@ Get the light state
 
 Changelog
 ---------
+0.1.1 (2020-05-08)
+~~~~~~~~~~~~~~~~~~
+- Expose auto reconnect
+
 0.1.0 (2020-05-07)
 ~~~~~~~~~~~~~~~~~~
 - Discover nearby devices

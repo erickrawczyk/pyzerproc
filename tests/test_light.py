@@ -11,7 +11,7 @@ def test_connect_disconnect(adapter, device):
     light.connect()
 
     adapter.start.assert_called_with(reset_on_start=False)
-    adapter.connect.assert_called_with("00:11:22")
+    adapter.connect.assert_called_with("00:11:22", auto_reconnect=False)
     device.subscribe.assert_called_with(
         "0000ffe4-0000-1000-8000-00805f9b34fb", callback=light._handle_data)
 
@@ -23,6 +23,13 @@ def test_connect_disconnect(adapter, device):
     light.disconnect()
 
     adapter.stop.assert_called_once()
+
+    # Test auto reconnect
+    light = Light("00:11:22")
+    light.connect(auto_reconnect=True)
+
+    adapter.start.assert_called_with(reset_on_start=False)
+    adapter.connect.assert_called_with("00:11:22", auto_reconnect=True)
 
 
 def test_turn_on_not_connected(device):
