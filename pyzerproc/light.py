@@ -3,8 +3,6 @@ from binascii import hexlify
 import logging
 import queue
 
-import pygatt
-
 from .exceptions import ZerprocException
 
 _LOGGER = logging.getLogger(__name__)
@@ -27,6 +25,8 @@ class Light():
 
     def connect(self, auto_reconnect=False):
         """Connect to this light"""
+        import pygatt
+
         _LOGGER.info("Connecting to %s", self.address)
 
         self.adapter = pygatt.GATTToolBackend()
@@ -44,6 +44,8 @@ class Light():
 
     def disconnect(self):
         """Connect to this light"""
+        import pygatt
+
         if self.adapter:
             try:
                 self.adapter.stop()
@@ -137,6 +139,8 @@ class Light():
 
     def _write(self, uuid, value):
         """Internal method to write to the device"""
+        import pygatt
+
         if not self.device:
             raise RuntimeError(
                 "Light {} is not connected".format(self.address))

@@ -1,8 +1,6 @@
 """Device discovery code"""
 import logging
 
-import pygatt
-
 from .light import Light
 from .exceptions import ZerprocException
 
@@ -13,6 +11,7 @@ def discover(timeout=10):
     """Returns nearby discovered lights."""
     _LOGGER.info("Starting scan for local devices")
 
+    import pygatt
     adapter = pygatt.GATTToolBackend()
 
     lights = []
