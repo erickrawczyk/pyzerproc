@@ -154,6 +154,10 @@ Get the light state
 
 Changelog
 ---------
+0.2.1 (2020-05-09)
+~~~~~~~~~~~~~~~~~~
+- Wrap upstream exceptions
+
 0.2.0 (2020-05-09)
 ~~~~~~~~~~~~~~~~~~
 - Expose exception objects
