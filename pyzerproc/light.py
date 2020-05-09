@@ -5,6 +5,8 @@ import queue
 
 import pygatt
 
+from .exceptions import ZerprocException
+
 _LOGGER = logging.getLogger(__name__)
 
 CHARACTERISTIC_COMMAND_WRITE = "0000ffe9-0000-1000-8000-00805f9b34fb"
@@ -28,9 +30,12 @@ class Light():
         _LOGGER.info("Connecting to %s", self.address)
 
         self.adapter = pygatt.GATTToolBackend()
-        self.adapter.start(reset_on_start=False)
-        self.device = self.adapter.connect(
-            self.address, auto_reconnect=auto_reconnect)
+        try:
+            self.adapter.start(reset_on_start=False)
+            self.device = self.adapter.connect(
+                self.address, auto_reconnect=auto_reconnect)
+        except pygatt.BLEError as ex:
+            raise ZerprocException() from ex
 
         _LOGGER.debug("Connected to %s", self.address)
 
@@ -40,7 +45,10 @@ class Light():
     def disconnect(self):
         """Connect to this light"""
         if self.adapter:
-            self.adapter.stop()
+            try:
+                self.adapter.stop()
+            except pygatt.BLEError as ex:
+                raise ZerprocException() from ex
             self.adapter = None
             self.device = None
 
@@ -134,7 +142,10 @@ class Light():
                 "Light {} is not connected".format(self.address))
 
         _LOGGER.debug("Writing 0x%s to characteristic %s", value.hex(), uuid)
-        self.device.char_write(uuid, value)
+        try:
+            self.device.char_write(uuid, value)
+        except pygatt.BLEError as ex:
+            raise ZerprocException() from ex
         _LOGGER.debug("Wrote 0x%s to characteristic %s", value.hex(), uuid)
 
 

@@ -2,7 +2,9 @@
 import queue
 import pytest
 
-from pyzerproc import Light, LightState
+import pygatt
+
+from pyzerproc import Light, LightState, ZerprocException
 
 
 def test_connect_disconnect(adapter, device):
@@ -154,3 +156,30 @@ def test_light_state_equality():
     assert LightState(True, (0, 255, 0)) != LightState(False, (0, 255, 0))
     assert LightState(True, (0, 255, 0)) != LightState(True, (255, 255, 0))
     assert LightState(True, (0, 255, 0)) == LightState(True, (0, 255, 0))
+
+
+def test_exception_wrapping(device, adapter):
+    """Test the CLI."""
+    def raise_exception(*args, **kwargs):
+        raise pygatt.BLEError("TEST")
+
+    adapter.start.side_effect = raise_exception
+
+    with pytest.raises(ZerprocException):
+        light = Light("00:11:22")
+        light.connect()
+
+    adapter.start.side_effect = None
+    adapter.stop.side_effect = raise_exception
+
+    with pytest.raises(ZerprocException):
+        light = Light("00:11:22")
+        light.connect()
+        light.disconnect()
+
+    device.char_write.side_effect = raise_exception
+
+    with pytest.raises(ZerprocException):
+        light = Light("00:11:22")
+        light.connect()
+        light.turn_on()

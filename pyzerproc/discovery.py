@@ -4,6 +4,7 @@ import logging
 import pygatt
 
 from .light import Light
+from .exceptions import ZerprocException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -13,10 +14,10 @@ def discover(timeout=10):
     _LOGGER.info("Starting scan for local devices")
 
     adapter = pygatt.GATTToolBackend()
-    adapter.start(reset_on_start=False)
 
     lights = []
     try:
+        adapter.start(reset_on_start=False)
         for device in adapter.scan(timeout=timeout):
             # Improvements welcome
             if device['name'] and device['name'].startswith('LEDBlue-'):
@@ -24,8 +25,13 @@ def discover(timeout=10):
                     "Discovered %s: %s", device['address'], device['name'])
                 lights.append(
                     Light(device['address'], device['name'].strip()))
+    except pygatt.BLEError as ex:
+        raise ZerprocException() from ex
     finally:
-        adapter.stop()
+        try:
+            adapter.stop()
+        except pygatt.BLEError as ex:
+            raise ZerprocException() from ex
 
     _LOGGER.info("Scan complete")
     return lights

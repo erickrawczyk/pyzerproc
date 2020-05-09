@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-from pyzerproc import discover
+import pygatt
+import pytest
+
+from pyzerproc import discover, ZerprocException
 
 
 def test_discover_devices(adapter):
@@ -37,3 +40,20 @@ def test_discover_devices(adapter):
     adapter.start.assert_called_with(reset_on_start=False)
     adapter.scan.assert_called_with(timeout=15)
     adapter.stop.assert_called_once()
+
+
+def test_exception_wrapping(adapter):
+    """Test the CLI."""
+    def raise_exception(*args, **kwargs):
+        raise pygatt.BLEError("TEST")
+
+    adapter.scan.side_effect = raise_exception
+
+    with pytest.raises(ZerprocException):
+        discover()
+
+    adapter.scan.side_effect = None
+    adapter.stop.side_effect = raise_exception
+
+    with pytest.raises(ZerprocException):
+        discover()
