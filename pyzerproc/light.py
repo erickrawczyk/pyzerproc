@@ -34,13 +34,13 @@ class Light():
             self.adapter.start(reset_on_start=False)
             self.device = self.adapter.connect(
                 self.address, auto_reconnect=auto_reconnect)
+
+            self.device.subscribe(CHARACTERISTIC_NOTIFY_VALUE,
+                                  callback=self._handle_data)
         except pygatt.BLEError as ex:
             raise ZerprocException() from ex
 
         _LOGGER.debug("Connected to %s", self.address)
-
-        self.device.subscribe(CHARACTERISTIC_NOTIFY_VALUE,
-                              callback=self._handle_data)
 
     def disconnect(self):
         """Connect to this light"""
