@@ -154,6 +154,10 @@ Get the light state
 
 Changelog
 ---------
+0.2.3 (2020-05-09)
+~~~~~~~~~~~~~~~~~~
+- Rethrow exceptions on device subscribe
+
 0.2.2 (2020-05-09)
 ~~~~~~~~~~~~~~~~~~
 - Fix imports
