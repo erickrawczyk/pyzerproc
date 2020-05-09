@@ -77,10 +77,10 @@ Discover nearby devices
 
     import pyzerproc
 
-    addresses = pyzerproc.discover_devices(timeout=30)
+    lights = pyzerproc.discover(timeout=30)
 
-    for address in addresses:
-        print(address)
+    for light in lights:
+        print("Address: {} Name: {}".format(light.address, light.name))
 
 
 Turn a light on and off
@@ -154,6 +154,11 @@ Get the light state
 
 Changelog
 ---------
+Next
+~~~~
+- Expose exception objects
+- Expose light address and name on discovery
+
 0.1.1 (2020-05-08)
 ~~~~~~~~~~~~~~~~~~
 - Expose auto reconnect

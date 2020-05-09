@@ -24,9 +24,9 @@ def main(verbose):
 @main.command()
 def discover():
     """Discover nearby lights"""
-    addresses = pyzerproc.discover_devices()
-    for address in addresses:
-        click.echo(address)
+    lights = pyzerproc.discover()
+    for light in lights:
+        click.echo(light.address)
 
     return 0
 

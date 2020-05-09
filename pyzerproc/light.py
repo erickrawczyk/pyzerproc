@@ -14,8 +14,9 @@ NOTIFICATION_RESPONSE_TIMEOUT = 5
 class Light():
     """Represents one connected light"""
 
-    def __init__(self, address):
+    def __init__(self, address, name=None):
         self.address = address
+        self.name = name
         self.adapter = None
         self.device = None
         self.notification_queue = queue.Queue(maxsize=1)
@@ -150,3 +151,7 @@ class LightState():
         """Return a string representation of the state object"""
         return "<LightState is_on='{}' color='{}'>".format(
             self.is_on, self.color)
+
+    def __eq__(self, other):
+        """Check for equality."""
+        return self.is_on == other.is_on and self.color == other.color

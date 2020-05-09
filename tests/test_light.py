@@ -2,7 +2,7 @@
 import queue
 import pytest
 
-from pyzerproc import Light
+from pyzerproc import Light, LightState
 
 
 def test_connect_disconnect(adapter, device):
@@ -147,3 +147,10 @@ def test_get_state(device, mocker):
 
     with pytest.raises(TimeoutError):
         state = light.get_state()
+
+
+def test_light_state_equality():
+    """Test the equality check for light state."""
+    assert LightState(True, (0, 255, 0)) != LightState(False, (0, 255, 0))
+    assert LightState(True, (0, 255, 0)) != LightState(True, (255, 255, 0))
+    assert LightState(True, (0, 255, 0)) == LightState(True, (0, 255, 0))
