@@ -3,6 +3,8 @@ from binascii import hexlify
 import logging
 import queue
 
+import pygatt
+
 _LOGGER = logging.getLogger(__name__)
 
 CHARACTERISTIC_COMMAND_WRITE = "0000ffe9-0000-1000-8000-00805f9b34fb"
@@ -23,8 +25,6 @@ class Light():
 
     def connect(self, auto_reconnect=False):
         """Connect to this light"""
-        import pygatt
-
         _LOGGER.info("Connecting to %s", self.address)
 
         self.adapter = pygatt.GATTToolBackend()

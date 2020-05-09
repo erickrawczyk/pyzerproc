@@ -1,6 +1,8 @@
 """Device discovery code"""
 import logging
 
+import pygatt
+
 from .light import Light
 
 _LOGGER = logging.getLogger(__name__)
@@ -10,7 +12,6 @@ def discover(timeout=10):
     """Returns nearby discovered lights."""
     _LOGGER.info("Starting scan for local devices")
 
-    import pygatt
     adapter = pygatt.GATTToolBackend()
     adapter.start(reset_on_start=False)
 
