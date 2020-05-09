@@ -69,11 +69,6 @@ def test_set_color(device):
     light = Light("00:11:22")
     light.connect()
 
-    light.set_color(0, 0, 0)
-    device.char_write.assert_called_with(
-        '0000ffe9-0000-1000-8000-00805f9b34fb',
-        b'\x56\x00\x00\x00\x00\xF0\xAA')
-
     light.set_color(255, 255, 255)
     device.char_write.assert_called_with(
         '0000ffe9-0000-1000-8000-00805f9b34fb',
@@ -82,7 +77,18 @@ def test_set_color(device):
     light.set_color(64, 128, 192)
     device.char_write.assert_called_with(
         '0000ffe9-0000-1000-8000-00805f9b34fb',
-        b'\x56\x07\x0F\x17\x00\xF0\xAA')
+        b'\x56\x08\x10\x18\x00\xF0\xAA')
+
+    # Assert that lights are always on unless zero
+    light.set_color(1, 1, 1)
+    device.char_write.assert_called_with(
+        '0000ffe9-0000-1000-8000-00805f9b34fb',
+        b'\x56\x01\x01\x01\x00\xF0\xAA')
+
+    # When called with all zeros, just turn off the light
+    light.set_color(0, 0, 0)
+    device.char_write.assert_called_with(
+        '0000ffe9-0000-1000-8000-00805f9b34fb', b'\xCC\x24\x33')
 
     with pytest.raises(ValueError):
         light.set_color(999, 999, 999)

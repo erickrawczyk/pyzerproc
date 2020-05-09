@@ -1,6 +1,7 @@
 """Device class"""
 from binascii import hexlify
 import logging
+import math
 import queue
 
 from .exceptions import ZerprocException
@@ -80,14 +81,18 @@ class Light():
                      self.address, r, g, b)
 
         # Normalize to 0-31, the supported range of these lights
-        r = int(r * 31 / 255)
-        g = int(g * 31 / 255)
-        b = int(b * 31 / 255)
-        color_string = "{:c}{:c}{:c}".format(r, g, b).encode()
+        r = int(math.ceil(r * 31 / 255))
+        g = int(math.ceil(g * 31 / 255))
+        b = int(math.ceil(b * 31 / 255))
 
-        value = b'\x56' + color_string + b'\x00\xF0\xAA'
-        self._write(CHARACTERISTIC_COMMAND_WRITE, value)
-        _LOGGER.debug("Changed color of %s", self.address)
+        if r == 0 and g == 0 and b == 0:
+            self.turn_off()
+        else:
+            color_string = "{:c}{:c}{:c}".format(r, g, b).encode()
+
+            value = b'\x56' + color_string + b'\x00\xF0\xAA'
+            self._write(CHARACTERISTIC_COMMAND_WRITE, value)
+            _LOGGER.debug("Changed color of %s", self.address)
 
     def _handle_data(self, handle, value):
         """Handle an incoming notification message."""
