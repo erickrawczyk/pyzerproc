@@ -154,8 +154,8 @@ Get the light state
 
 Changelog
 ---------
-Next
-~~~~
+0.2.0 (2020-05-09)
+~~~~~~~~~~~~~~~~~~
 - Expose exception objects
 - Expose light address and name on discovery
 
