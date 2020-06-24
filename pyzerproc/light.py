@@ -80,15 +80,17 @@ class Light():
         _LOGGER.info("Changing color of %s to #%02x%02x%02x",
                      self.address, r, g, b)
 
-        # Normalize to 0-31, the supported range of these lights
-        r = int(math.ceil(r * 31 / 255))
-        g = int(math.ceil(g * 31 / 255))
-        b = int(math.ceil(b * 31 / 255))
+        # Normalize to 0-31, the dimmable range of these lights. If setting to
+        # full brightness, set the channel to 0xFF to mimic the vendor app
+        # behavior
+        r = 255 if r == 255 else int(math.ceil(r * 31 / 255))
+        g = 255 if g == 255 else int(math.ceil(g * 31 / 255))
+        b = 255 if b == 255 else int(math.ceil(b * 31 / 255))
 
         if r == 0 and g == 0 and b == 0:
             self.turn_off()
         else:
-            color_string = "{:c}{:c}{:c}".format(r, g, b).encode()
+            color_string = bytes((r, g, b))
 
             value = b'\x56' + color_string + b'\x00\xF0\xAA'
             self._write(CHARACTERISTIC_COMMAND_WRITE, value)

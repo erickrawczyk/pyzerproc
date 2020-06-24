@@ -72,7 +72,7 @@ def test_set_color(device):
     light.set_color(255, 255, 255)
     device.char_write.assert_called_with(
         '0000ffe9-0000-1000-8000-00805f9b34fb',
-        b'\x56\x1F\x1F\x1F\x00\xF0\xAA')
+        b'\x56\xFF\xFF\xFF\x00\xF0\xAA')
 
     light.set_color(64, 128, 192)
     device.char_write.assert_called_with(
