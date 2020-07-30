@@ -22,9 +22,10 @@ def main(verbose):
 
 
 @main.command()
-def discover():
+@click.argument('name', required=False)
+def discover(name):
     """Discover nearby lights"""
-    lights = pyzerproc.discover()
+    lights = pyzerproc.discover(name)
     for light in lights:
         click.echo(light.address)
 

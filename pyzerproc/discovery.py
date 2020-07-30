@@ -7,7 +7,10 @@ from .exceptions import ZerprocException
 _LOGGER = logging.getLogger(__name__)
 
 
-def discover(timeout=10):
+def discover(name ='KulerSky-', timeout=10):
+    if not name:
+        name = 'KulerSky-'
+
     """Returns nearby discovered lights."""
     _LOGGER.info("Starting scan for local devices")
 
@@ -19,7 +22,7 @@ def discover(timeout=10):
         adapter.start(reset_on_start=False)
         for device in adapter.scan(timeout=timeout):
             # Improvements welcome
-            if device['name'] and device['name'].startswith('LEDBlue-'):
+            if device['name'] and device['name'].startswith(name):
                 _LOGGER.info(
                     "Discovered %s: %s", device['address'], device['name'])
                 lights.append(
